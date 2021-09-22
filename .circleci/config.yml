@@ -196,7 +196,7 @@ jobs:
           name: Install dependencies
           command: yum install -y tar gzip
       - run:
-          name: Deploy backend infrastructure
+          name: Ensure back-end infrastructure exists
           working_directory: ./.circleci/files
           command: |
             aws cloudformation deploy \
