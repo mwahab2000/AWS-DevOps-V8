@@ -169,9 +169,10 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Check Frontend against security vulnerabilities
+          name: fix Frontend security vulnerabilities
           working_directory: ./frontend
-          command: npm audit --audit-level=critical
+          command: npm audit fix --audit-level=critical --force    
+      
 
 
   scan-backend:
@@ -181,9 +182,10 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Check Backend against security vulnerabilities
+          name: fix backend security vulnerabilities
           working_directory: ./backend
-          command: npm audit --audit-level=critical
+          command: npm audit fix --audit-level=critical --force    
+    
 
 
   deploy-infrastructure:
@@ -242,7 +244,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["06:55:19:5c:75:9c:0c:fa:5e:f0:ed:c4:2b:35:ec:76"]
+          fingerprints: ["09:33:6d:86:bf:00:e8:2e:dc:c0:a6:bd:b7:69:f4:ab"]
       - attach_workspace:
           at: .
       - run:
