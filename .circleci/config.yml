@@ -189,7 +189,7 @@ jobs:
 
 
   deploy-infrastructure:
-    executor: aws
+    executor: node
     steps:
       - checkout
       - run:
