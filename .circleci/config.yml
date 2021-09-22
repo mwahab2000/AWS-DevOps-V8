@@ -463,7 +463,8 @@ workflows:
       ## BUILD AND DEPLOY
       - install-backend-dependencies
       - install-frontend-dependencies
- - build-backend:
+
+      - build-backend:
           requires:
             - install-backend-dependencies
       - build-frontend:
@@ -516,7 +517,3 @@ workflows:
           requires:
             - smoke-test
       - cleanup:
-          requires:
-            - cloudfront-update
-
-     
