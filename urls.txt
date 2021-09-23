@@ -1,8 +1,8 @@
 Public Url to GitHub repository (not private) [URL01]
-  https://github.com/mithie/udacity-cloud-devops-engineer-project-3
+  https://github.com/mwahab2000/AWS-DevOps-V6/
 
 Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
-  http://udapeople-da82967.s3-website.eu-central-1.amazonaws.com
+  https://s3.us-east-1.amazonaws.com/udapeople-72031c3
 
 Public URL for your CloudFront distribution (aka, your blue production front-end) [URL03]
   http://d14noz9jic9ry1.cloudfront.net/
