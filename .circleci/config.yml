@@ -12,7 +12,6 @@ executors:
     docker:
       - image: amazon/aws-cli
 
-
 commands:
   destroy_environment:
     description: Destroy Cloud Formation Stacks and infrastructure
