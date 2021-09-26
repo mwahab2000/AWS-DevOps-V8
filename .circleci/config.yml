@@ -388,7 +388,8 @@ jobs:
           command: |
             export BACKEND_URL=$(curl -H "token: 1513db3b-15be-4750-bae6-3a8d32dd6de2" --request GET https://api.memstash.io/values/BACKEND_URL)
             echo $BACKEND_URL
-            #curl "$BACKEND_URL/api/status"
+            echo $BACKEND_IP
+            curl "$BACKEND_URL/api/status"
       - run:
           name: Frontend smoke test.
           working_directory: ./backend
