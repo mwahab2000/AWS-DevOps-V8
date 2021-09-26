@@ -396,6 +396,7 @@ jobs:
           command: |
             BACKEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"
             echo $BACKEND_URL
+            echo $BACKEND_IP
             curl -s ${BACKEND_URL} | grep -q "Welcome"
       - destroy_environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
