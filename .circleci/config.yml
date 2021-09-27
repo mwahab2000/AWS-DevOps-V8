@@ -471,6 +471,7 @@ jobs:
 
 
 workflows:
+version: 2
   default:
     jobs:
       ## BUILD AND DEPLOY
