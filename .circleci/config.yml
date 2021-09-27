@@ -11,6 +11,7 @@ executors:
   aws:
     docker:
       - image: amazon/aws-cli
+      
 
 commands:
   destroy_environment:
