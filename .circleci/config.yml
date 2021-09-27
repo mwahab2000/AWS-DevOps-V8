@@ -1,5 +1,4 @@
-version: 2.1
-
+version: 2.12.8
 
 executors:
   node:
@@ -468,8 +467,7 @@ jobs:
 
 
 workflows:
-  version: 2.12.8
-  default:
+  workflow:
     jobs:
       ## BUILD AND DEPLOY
       - install-backend-dependencies
