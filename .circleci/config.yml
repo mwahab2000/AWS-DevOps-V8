@@ -471,7 +471,7 @@ jobs:
 
 
 workflows:
-  version: 2
+  version: 2.12.8
   default:
     jobs:
       ## BUILD AND DEPLOY
