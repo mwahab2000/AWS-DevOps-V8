@@ -471,7 +471,7 @@ jobs:
 
 
 workflows:
-  default:
+  setup-workflow:
     jobs:
       ## BUILD AND DEPLOY
       - install-backend-dependencies
