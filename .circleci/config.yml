@@ -200,7 +200,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file backend.yaml \
-              --stack-name "udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --stack-name "udapeople-backend${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople-${CIRCLE_WORKFLOW_ID:0:7}
       - run:
@@ -210,6 +210,12 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
+              
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --output text
+              
             curl -H "Content-Type: text/plain" -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "http://$BACKEND_IP:3030" https://api.memstash.io/values/BACKEND_URL
       - run:
           name: Deploy frontend infrastructure
