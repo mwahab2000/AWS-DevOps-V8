@@ -186,7 +186,6 @@ jobs:
           command: npm audit fix --audit-level=critical --force    
     
 
-
   deploy-infrastructure:
     executor: aws
     steps:
