@@ -377,6 +377,20 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail
 
+      - run :
+          name: Print BACKEND_URL1
+          command: echo $BACKEND_URL
+          
+      - run :
+          name: Print BACKEND_URL2
+          command: echo ${BACKEND_URL}
+
+      - run :
+          name: Print BACKEND_IP1
+          command: echo $BACKEND_IP
+      - run :
+          name: Print BACKEND_IP2
+          command: echo ${BACKEND_IP}
 
   smoke-test:
     executor: python
