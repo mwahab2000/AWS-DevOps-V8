@@ -494,9 +494,9 @@ workflows:
 
       ## INFRASTRUCTURE
       - deploy-infrastructure:
-         requires:
-          -build-backend
-          -build-frontend
+           requires:
+            - build-backend
+            - build-frontend
         
          
       - configure-infrastructure:
