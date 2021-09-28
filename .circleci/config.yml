@@ -299,10 +299,10 @@ jobs:
             if grep -q "has been executed successfully" migration_status
             then
               echo "DB migration was successful, will update memstash..."
-              curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
+              curl -H "Content-Type: text/plain" -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
             else
               echo "DB migration failed, please verify setup! Probably the database already exists. Verify setup!"
-              curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "failure" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
+              curl -H "Content-Type: text/plain" -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "failure" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
             fi
             echo "WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy_environment:
@@ -393,19 +393,28 @@ jobs:
       - run:
           name: Backend smoke test.
           working_directory: ./backend
+          command: echo $BACKEND_URL
+          command: echo ${BACKEND_URL}
+          command: echo $BACKEND_IP
+          command: echo ${BACKEND_IP}
+
+
           command: |
             export BACKEND_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
-            echo $BACKEND_URL
-            echo $BACKEND_IP
             curl "$BACKEND_URL/api/status"
+                      
       - run:
           name: Frontend smoke test.
           working_directory: ./backend
           command: |
             BACKEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"
-            echo $BACKEND_URL
             echo $BACKEND_IP
             curl -s ${BACKEND_URL} | grep -q "Welcome"
+          command: echo $BACKEND_URL
+          command: echo ${BACKEND_URL}
+          command: echo $BACKEND_IP
+          command: echo ${BACKEND_IP}
+
       - destroy_environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail
