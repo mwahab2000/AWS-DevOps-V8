@@ -2,10 +2,10 @@ Public Url to GitHub repository (not private) [URL01]
   https://github.com/mwahab2000/AWS-DevOps-V6/
 
 Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
-  http://udapeople-c120c86.s3-website-us-east-1.amazonaws.com/
+ http://udapeople-8c2e587.s3-website-us-east-1.amazonaws.com/#/employees
 
 Public URL for your CloudFront distribution (aka, your blue production front-end) [URL03]
-  http://https://dv9dwgs0qa2ps.cloudfront.net
+  https://dv9dwgs0qa2ps.cloudfront.net
 
 Public URLs to deployed application back-end in EC2 [URL04]
   http://ec2-3-93-174-86.compute-1.amazonaws.com:3030/
