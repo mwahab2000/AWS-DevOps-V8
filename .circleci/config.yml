@@ -379,7 +379,7 @@ jobs:
 
 
   smoke-test:
-       executor: python
+  executor: python
     steps:
       - checkout
       - attach_workspace:
