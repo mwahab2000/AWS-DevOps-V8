@@ -202,7 +202,7 @@ jobs:
               --template-file backend.yaml \
               --stack-name "udapeople-backend${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople-${CIRCLE_WORKFLOW_ID:0:7}
+              --tags project=udapeople-backend${CIRCLE_WORKFLOW_ID:0:7}
       - run:
           name: Save backend URL in memstash
           command: |
@@ -225,9 +225,9 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file frontend.yaml \
-              --stack-name "udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --stack-name "udapeople-frontend${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople-${CIRCLE_WORKFLOW_ID:0:7}
+              --tags project=udapeople-frontend${CIRCLE_WORKFLOW_ID:0:7}
       - run:
           name: Add backend ip to ansible inventory
           working_directory: ./.circleci/ansible
