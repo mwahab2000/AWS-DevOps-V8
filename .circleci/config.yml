@@ -309,7 +309,7 @@ jobs:
             aws s3 sync dist s3://${bucket}/
 
             echo "STORING THE FRONT END S3 BUCKET URL IN MEMSTASH FOR LATER USE"
-            bucketurl="$(echo "http://$bucket.s3-website-us-west-2.amazonaws.com")"
+            bucketurl="$(echo "http://$bucket.s3-website-us-east-1.amazonaws.com")"
             curl -H "Content-Type: text/plain" -H "token: c1b1e3ca-9ad3-4e51-a6ba-8693a7450b4e" --request PUT \
               --data "$bucketurl" https://api.memstash.io/values/bucketurl
       - destroy-environment
