@@ -1,8 +1,6 @@
 version: 2.1
 
-orbs:
-  slack: circleci/slack@4.4.2
-  aws-cli: circleci/aws-cli@1.3.0
+
 
 commands:
   destroy_environment:
@@ -98,11 +96,7 @@ jobs:
           root: .
           paths:
             - backend/dist
-      - slack/notify:
-          channel: continuous-development-and-continuous-deployment
-          event: fail
-          template: basic_fail_1
-
+    
 
   build-frontend:
     docker:
@@ -115,11 +109,7 @@ jobs:
           name: npm run build
           working_directory: ./frontend
           command: npm run build
-      - slack/notify:
-          channel: continuous-development-and-continuous-deployment
-          event: fail
-          template: basic_fail_1
-
+ 
 
   test-frontend:
     docker:
