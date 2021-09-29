@@ -12,6 +12,7 @@ executors:
     docker:
       - image: amazon/aws-cli
 
+
 commands:
   destroy_environment:
     description: Destroy Cloud Formation Stacks and infrastructure
@@ -168,10 +169,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: fix Frontend security vulnerabilities
+          name: Check Frontend against security vulnerabilities
           working_directory: ./frontend
-          command: npm audit fix --audit-level=critical --force    
-      
+          command: npm audit --audit-level=critical
 
 
   scan-backend:
@@ -181,10 +181,10 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: fix backend security vulnerabilities
+          name: Check Backend against security vulnerabilities
           working_directory: ./backend
-          command: npm audit fix --audit-level=critical --force    
-    
+          command: npm audit --audit-level=critical
+
 
   deploy-infrastructure:
     executor: aws
@@ -194,7 +194,7 @@ jobs:
           name: Install dependencies
           command: yum install -y tar gzip
       - run:
-          name: Ensure back-end infrastructure exists
+          name: Deploy backend infrastructure
           working_directory: ./.circleci/files
           command: |
             aws cloudformation deploy \
@@ -209,14 +209,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
-              
-            #aws ec2 describe-instances \
-            #  --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            #  --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            #  --output text
-              
-            #echo $BACKEND_URL
-            #echo $BACKEND_IP
+
             curl -H "Content-Type: text/plain" -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "http://$BACKEND_IP:3030" https://api.memstash.io/values/BACKEND_URL
       - run:
           name: Deploy frontend infrastructure
@@ -298,10 +291,10 @@ jobs:
             if grep -q "has been executed successfully" migration_status
             then
               echo "DB migration was successful, will update memstash..."
-              curl -H "Content-Type: text/plain" -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
+              curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "success" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
             else
               echo "DB migration failed, please verify setup! Probably the database already exists. Verify setup!"
-              curl -H "Content-Type: text/plain" -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "failure" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
+              curl -H "Content-Type: text/plain" -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request PUT --data "failure" https://api.memstash.io/values/DB_MIGRATION_${CIRCLE_WORKFLOW_ID:0:7}
             fi
             echo "WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy_environment:
@@ -408,6 +401,7 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail
 
+
   cloudfront-update:
     executor: aws
     steps:
@@ -425,7 +419,7 @@ jobs:
             WorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
-            curl -H "Content-Type: text/plain" -H "token:  1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request PUT --data "$WorkflowID" https://api.memstash.io/values/WorkflowID
+            curl -H "Content-Type: text/plain" -H "token: 1513db3b-15be-4750-bae6-3a8d32dd6de2" --request PUT --data "$WorkflowID" https://api.memstash.io/values/WorkflowID
       - run:
           name: Update cloudfront distribution
           working_directory: ./.circleci/files
@@ -447,11 +441,13 @@ jobs:
       - run:
           name: Clean up old environment
           command: |
-            OldWorkflowID=$(curl -H "token:  1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/WorkflowID)
+            OldWorkflowID=$(curl -H "token: 1513db3b-15be-4750-bae6-3a8d32dd6de2" --request GET https://api.memstash.io/values/WorkflowID)
             CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
+
             if [[ "$CurrentWorkflowID" != "$OldWorkflowID" ]]
             then
               echo "$OldWorkflowID!=$CurrentWorkflowID => will delete old version"
+
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
@@ -490,10 +486,10 @@ workflows:
 
       ## INFRASTRUCTURE
       - deploy-infrastructure:
-          requires:
-            - build-backend
-            - build-frontend        
-         
+          filters:
+            branches:
+              only:
+                - master
       - configure-infrastructure:
           requires:
             - deploy-infrastructure
@@ -504,6 +500,10 @@ workflows:
             - scan-backend
             - scan-frontend
             - configure-infrastructure
+          filters:
+            branches:
+              only:
+                - master
       - deploy-backend:
           requires:
             - run-migrations
