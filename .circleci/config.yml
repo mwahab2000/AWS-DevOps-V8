@@ -155,7 +155,7 @@ jobs:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
+              --template-file .circleci/files/backend.yaml \
               --tags project=udapeople-backend_${CIRCLE_WORKFLOW_ID:0:7} \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
@@ -163,7 +163,7 @@ jobs:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
+              --template-file .circleci/files/frontend.yaml \
               --tags project=udapeople-frontend_${CIRCLE_WORKFLOW_ID:0:7} \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
@@ -202,7 +202,14 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - 1d:5a:71:ae:c3:d0:96:9d:53:4b:d6:eb:46:2e:4c:44
+            - 5d:12:10:23:b7:ec:70:76:d3:c7:fb:bc:2d:52:e5:f7
+            - 46:01:4e:c2:a1:b4:af:39:9c:29:e0:be:fb:45:17:b2
+            - 09:33:6d:86:bf:00:e8:2e:dc:c0:a6:bd:b7:69:f4:ab
+            
+            
+
+
+            
       - attach_workspace:
           at: /tmp
       - run:
@@ -212,7 +219,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i /tmp/ansible/inventory.txt .circleci/ansible/configure-server.yml
+            ansible-playbook -i /tmp/ansible/inventory.txt .circleci/ansible/configure-server.yaml
       - destroy-environment      
      
   run-migrations:
@@ -311,7 +318,11 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - 1d:5a:71:ae:c3:d0:96:9d:53:4b:d6:eb:46:2e:4c:44
+            - 5d:12:10:23:b7:ec:70:76:d3:c7:fb:bc:2d:52:e5:f7
+            - 46:01:4e:c2:a1:b4:af:39:9c:29:e0:be:fb:45:17:b2
+            - 09:33:6d:86:bf:00:e8:2e:dc:c0:a6:bd:b7:69:f4:ab
+            
+            
       - attach_workspace:
           at: .
       - run:
@@ -337,7 +348,7 @@ jobs:
             tar -cvf backend.tar backend
             
             echo "DEPLOYING THE APPLICATION BACKEND"
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.txt .circleci/ansible/deploy-backend.yml
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.txt .circleci/ansible/deploy-backend.yaml
       - destroy-environment
 
   smoke-test:
@@ -394,7 +405,7 @@ jobs:
 
             echo "DEPLOYING THE CLOUDFRONT STACK AS NEW"
             aws cloudformation deploy \
-            --template-file .circleci/files/cloudfront.yml \
+            --template-file .circleci/files/cloudfront.yaml \
             --region ${AWS_DEFAULT_REGION} \
             --stack-name "UdacityNDP3UdaPeople" \
             --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
