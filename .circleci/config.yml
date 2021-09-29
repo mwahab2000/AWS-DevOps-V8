@@ -205,15 +205,14 @@ jobs:
       - run:
           name: Save backend URL in memstash
           command: |
+            echo $BACKEND_URL
+            echo $BACKEND_IP
+            
             BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
               
-            #aws ec2 describe-instances \
-            #  --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            #  --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            #  --output text
               
             echo $BACKEND_URL
             echo $BACKEND_IP
