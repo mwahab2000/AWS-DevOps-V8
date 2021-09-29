@@ -376,8 +376,8 @@ jobs:
             echo "RUNNING A BACKEND SMOKE TEST"
             BACKEND_URL="http://$(curl -H "token: c1b1e3ca-9ad3-4e51-a6ba-8693a7450b4e" --request GET \
               https://api.memstash.io/values/backendip_${CIRCLE_WORKFLOW_ID:0:7} | head -1):3030"
-            echo $BACKEND_URL
-            echo $BACKEND_IP
+            #echo $BACKEND_URL
+            #echo $BACKEND_IP
             
             #curl "$BACKEND_URL/api/status"
       - run:
