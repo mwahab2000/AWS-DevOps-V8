@@ -1,13 +1,12 @@
 ---
-
-- name: "install Ansible dependencies"
+- name: Install nodejs npm.
   become: true
   apt:
-    name: ["nodejs", "npm", "python3", "tar", "gzip", "git"]
+    name: ["nodejs", "npm"]
     state: latest
     update_cache: yes
 
-- name: "install pm2"
+- name: Install pm2
   become: true
   npm:
     name: pm2
@@ -15,24 +14,30 @@
     production: yes
     state: present
 
-- name: "create the application directory"
-  become_user: ubuntu
-  become: yes
+- name: Creates backend directory
   file:
-    path: ~/app
+    path: /home/ubuntu/backend
     state: directory
 
-- name: "untar the backend app file"
-  become_user: ubuntu
-  become: yes
-  unarchive:
-    src: ~/project/backend.tar
-    dest: ~/app
+- name: Copy tar file
+  copy:
+    src: /root/project/backendtar.tar.gz
+    dest: /home/ubuntu/backend/backendtar.tar.gz
 
-- name: "start PM2"
-  become_user: ubuntu
-  become: yes
+- name: unzip tar
   shell: |
-    cd ~/app/backend
-    npm i
+    cd /home/ubuntu/backend
+    tar xvzf backendtar.tar.gz -C .
+    ls -la
+    
+- name: install and run build
+  become: true
+  shell: |
+    cd /home/ubuntu/backend
+    npm install
+    npm run build
+    
+- name: Start backend
+  shell: |
+    cd /home/ubuntu/backend
     pm2 start npm --name backend -- start
