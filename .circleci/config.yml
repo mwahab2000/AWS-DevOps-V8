@@ -520,7 +520,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
       - configure-infrastructure:
           requires:
             - deploy-infrastructure
@@ -534,7 +534,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
       - deploy-backend:
           requires:
             - run-migrations
