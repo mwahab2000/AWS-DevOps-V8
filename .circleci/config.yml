@@ -401,11 +401,14 @@ jobs:
           working_directory: ./backend
           command: |
             export BACKEND_URL=$(curl -H "token: bec5e7b0-176f-456d-8751-5694ba3baf25" --request GET https://api.memstash.io/values/BACKEND_URL)
+            echo $BACKEND_URL
+            echo $BACKEND_IP
+            
             if curl "$BACKEND_URL/api/status" | grep "ok"
             then
             return 0
             else
-            return 1
+            #return 1
             fi           
       - run:
           name: Frontend smoke test.
