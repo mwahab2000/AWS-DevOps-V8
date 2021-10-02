@@ -470,7 +470,7 @@ jobs:
       - run:
           name: Clean up old environment
           command: |
-            OldWorkflowID=$(curl -H "token: 1513db3b-15be-4750-bae6-3a8d32dd6de2" --request GET https://api.memstash.io/values/WorkflowID)
+            OldWorkflowID=$(curl -H "token: bec5e7b0-176f-456d-8751-5694ba3baf25" --request GET https://api.memstash.io/values/WorkflowID)
             CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
             if [[ "$CurrentWorkflowID" != "$OldWorkflowID" ]]
             then
