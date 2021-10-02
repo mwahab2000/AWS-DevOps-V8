@@ -12,4 +12,4 @@ Public URLs to deployed application back-end in EC2 [URL04]
 
 Public URL to your Prometheus Server [URL05]
   
-http://ec2-3-90-207-148.compute-1.amazonaws.com:9090/targets
+http://ec2-3-88-102-140.compute-1.amazonaws.com:9090/targets
