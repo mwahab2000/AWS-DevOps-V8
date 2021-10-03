@@ -471,7 +471,11 @@ jobs:
           name: Clean up old environment
           command: |
             OldWorkflowID=$(curl -H "token: 1513db3b-15be-4750-bae6-3a8d32dd6de2" --request GET https://api.memstash.io/values/WorkflowID)
+            
             CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
+            echo $OldWorkflowID
+            echo $CurrentWorkflowID
+            
             if [[ "$CurrentWorkflowID" != "$OldWorkflowID" ]]
             then
               echo "$OldWorkflowID!=$CurrentWorkflowID => will delete old version"
